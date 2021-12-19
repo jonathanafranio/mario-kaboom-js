@@ -17,3 +17,4 @@ Tentando fazer uma cópia de Super Mario Bros com a framework [Kaboom.js](https:
 
 ## O que pretendo complementar que não teve nas referências:
 - Botões para dispositivos touchs para fazer as ações do jogo sem necessitar de um teclado.
+- Deixar o jogo iniciando com clique de um botão ao inves de iniciar no carregamento da pagina
