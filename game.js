@@ -109,19 +109,19 @@ scene("game", ({ level, score, deadLine, big, lives }) => {
         '%': [sprite('surprisa'), solid(), 'moeda-surprisa'],
         '*': [sprite('surprisa'), solid(), 'congumelo-surprisa'],
         '}': [sprite('unboxed'), solid()],
-        '^': [sprite('goomba'), body(), 'dangerous'],
+        '^': [sprite('goomba'), body(), 'dangerous', { dir: -1 }],
         '#': [sprite('cogumelo'), 'cogumelo', body()],
 
         '~': [sprite('tijolo'), solid(), 'tijolo'],
 
-        '(': [sprite('tubo-bottom-left'), solid(), scale(0.5)],
-        ')': [sprite('tubo-bottom-right'), solid(), scale(0.5)],
+        '(': [sprite('tubo-bottom-left'), solid(), 'base-tubo', scale(0.5)],
+        ')': [sprite('tubo-bottom-right'), solid(), 'base-tubo', scale(0.5)],
         '-': [sprite('tubo-top-left'), solid(), 'tubo', scale(0.5)],
         '+': [sprite('tubo-top-right'), solid(), 'tubo', scale(0.5)],
 
         '!': [sprite('blue-bloco'), solid(), scale(0.5)],
         '/': [sprite('blue-tijolo'), solid(), 'tijolo', scale(0.5)],
-        'z': [sprite('blue-goomba'), body(), 'dangerous', scale(0.5)],
+        'z': [sprite('blue-goomba'), body(), 'dangerous', scale(0.5), { dir: -1 }],
         '@': [sprite('blue-surprisa'), solid(), scale(0.5) , 'moeda-surprisa'],
         'x': [sprite('blue-aco'), solid(), 'aco', scale(0.5)],
     }
@@ -248,9 +248,23 @@ scene("game", ({ level, score, deadLine, big, lives }) => {
     const ENEMY_SPEED = 20
 
     action('dangerous', (d) => {
-        d.move(-ENEMY_SPEED, 0)
-        //d.collides('tijolo', () => d.move(ENEMY_SPEED, 0))
-        //d.collides('aco', () => d.move(-ENEMY_SPEED, 0))
+        //d.move(-ENEMY_SPEED, 0)
+        d.move(d.dir * ENEMY_SPEED, 0)
+    })
+
+    const changeDirectionDangerous = [
+        'tijolo',
+        'aco',
+        'base-tubo'
+    ];
+
+    changeDirectionDangerous.forEach((item) => {
+        collides('dangerous', item, (d) => {
+            let direction = d.dir;
+            // -1 é para esquerda (-1 * ENEMY_SPEED) || 1 é para direita (1 * ENEMY_SPEED) 
+            direction < 0 ? d.dir = 1 : d.dir = -1
+            d.move(d.dir * ENEMY_SPEED, 0)
+        })
     })
 
     player.action(() => {
@@ -281,7 +295,8 @@ scene("game", ({ level, score, deadLine, big, lives }) => {
         player.biggify()
     })
 
-    player.collides('dangerous', (d) => {
+    //player.collides('dangerous', (d) => {
+    player.overlaps('dangerous', (d) => {
         if(isJumping) {
             destroy(d)
         } else {
