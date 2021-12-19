@@ -12,7 +12,8 @@ Tentando fazer uma cópia de Super Mario Bros com a framework [Kaboom.js](https:
 
 ## O que tem de complemento que não teve nas referências:
 - Tempo para passar de fase, o jogador tem 300 segundos (5 minutos) para passar de fase, se o jogador não passar de fase nesse tempo, game over.
+- Jogador começar com 3 vidas. Se morrer, volta para o inicio da fase e perde uma vida. Se perder as útima vida, game over.
 
 ## O que pretendo complementar que não teve nas referências:
-- Criar 3 vidas para o player
 - Fazer os Goombas (inimigos) voltarem para o lado oposto quando encostam em um bloco, unboxed, aco...
+- Botões para dispositivos touchs para fazer as ações do jogo sem necessitar de um teclado.

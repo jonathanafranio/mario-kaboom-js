@@ -12,6 +12,7 @@ const BIG_JUMP_FORCE = 550
 let CURRENT_JUMP_FORCE = JUMP_FORCE
 let isJumping = true
 let isBig = false
+let lives_init = 3;
 const FALL_DEATH = 400
 const isDeadLine = 300
 
@@ -53,7 +54,7 @@ loadSprite('mario', 'OzrEnBy.png',{
     }
 }) // dinamico
 
-scene("game", ({ level, score, deadLine, big }) => {
+scene("game", ({ level, score, deadLine, big, lives }) => {
     layers(['bg', 'obj', 'ui'], 'obj')
 
     const maps = [
@@ -148,6 +149,12 @@ scene("game", ({ level, score, deadLine, big }) => {
     add([
         text(`Level: ${parseInt(level + 1 )}`, 10),
         pos(35,20),
+        layer('ui'),
+    ])
+
+    add([
+        text(`Vidas: ${lives}`, 10),
+        pos(35,35),
         layer('ui'),
     ])
 
@@ -282,7 +289,13 @@ scene("game", ({ level, score, deadLine, big }) => {
                 player.smallify()
             } else {
                 clearInterval(tDeath);
-                go('lose', ({ score: scoreLabel.value }))
+                if(lives > 1) {
+                    let livesLess = lives - 1;
+                    //level
+                    go("game", ({ level: level, score: scoreLabel.value, deadLine: isDeadLine, big: isBig, lives: livesLess }))
+                } else {
+                    go('lose', ({ score: scoreLabel.value }))
+                }
             }
         }
     })
@@ -299,7 +312,8 @@ scene("game", ({ level, score, deadLine, big }) => {
                 level: (level + 1) % maps.length,
                 score: scoreLabel.value,
                 deadLine: isDeadLine,
-                big: isBig
+                big: isBig,
+                lives: lives
             })
         })
     })
@@ -316,7 +330,14 @@ scene("game", ({ level, score, deadLine, big }) => {
         camPos(player.pos)
         if(player.pos.y >= FALL_DEATH) {
             clearInterval(tDeath);
-            go('lose', { score: scoreLabel.value })
+            if(lives > 1) {
+                let livesLess = lives - 1;
+                //level
+                go("game", ({ level: level, score: scoreLabel.value, deadLine: isDeadLine, big: isBig, lives: livesLess }))
+            } else {
+                go('lose', ({ score: scoreLabel.value }))
+            }
+            //go('lose', { score: scoreLabel.value })
         }
     })
 
@@ -324,7 +345,6 @@ scene("game", ({ level, score, deadLine, big }) => {
 
 scene('lose', ({score}) => {
     add([
-        //text(`SI FUDEU, KKKKKKK... \n\nScore: ${score}`, 18),
         text(`SI FUDEU, KKKKKKK...`, 18),
         origin('center'),
         pos(width()/2, height()/2)
@@ -343,8 +363,8 @@ scene('lose', ({score}) => {
 
     keyPress('space', () => {
         isBig ? isBig = false : isBig
-        go("game", { level: 0, score: 0, deadLine: isDeadLine, big: isBig })
+        go("game", { level: 0, score: 0, deadLine: isDeadLine, big: isBig, lives: lives_init })
     })
 })
 
-go("game", ({ level: 0, score: 0, deadLine: isDeadLine, big: isBig }))
+go("game", ({ level: 0, score: 0, deadLine: isDeadLine, big: isBig, lives: lives_init }))
