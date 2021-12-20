@@ -9,11 +9,55 @@
     <style>
         body {
             margin: 0;
+            height: 100vh;
+            font-size: 20px;
+            font-family: Arial, Helvetica, sans-serif;
+            line-height: 1.5;
+            color: #fff;
+            background: #010101 url(bg-mario.jpg) center bottom/contain no-repeat;
             overflow: hidden;
+        }
+        canvas {
+            opacity: 0;
+        }
+        .started canvas {
+            opacity: 1;
+        }
+        .container-start {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            padding: 0 40px;
+        }
+        h1 {
+            font-size: 30px;
+        }
+        h2 {
+            margin: 10px auto;
+            font-size: 25px;
+        }
+        .started .container-start {
+            display: none;
         }
     </style>
 </head>
 <body>
+    <div class="container-start">
+        <h1>Super Mario Broz</h1>
+        <h2>Como jogar:</h2>
+
+        <ul>
+            <li>Use as teclas de seta direita e esquerda para movimentar com Mario;</li>
+            <li>Use a tecla espaço para pular e matar o Goombas (inimigos);</li>
+            <li>Use a tecla seta para baixo quando estiver em cima dos tubos para trocar de tela</li>
+            <li>Tem 3 vidas, se perder todas as vidas, é gameover;</li>
+            <li>Se pegar o cogumelo, escondido na caixa de surpresas o Mario transforma em Super Mario;</li>
+            <li>Tem no maximo 5 minutos para passar de cada fase, se não passar de uma fase em até 5 minutos, gameo ver;</li>
+        </ul>
+
+        <h4>Para iniciar o jogo, pressione a tecla Espaço.</h4>
+    </div>
     
     <script src="https://kaboomjs.com/legacy/lib/0.6.0/kaboom.js"></script>
     <script src="game.js"></script>

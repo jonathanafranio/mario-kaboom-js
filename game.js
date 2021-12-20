@@ -382,4 +382,10 @@ scene('lose', ({score}) => {
     })
 })
 
-go("game", ({ level: 0, score: 0, deadLine: isDeadLine, big: isBig, lives: lives_init }))
+document.addEventListener('keydown', (e) => {
+    let bodyClass = document.querySelector('body');
+    if(e.keyCode === 32 && ! bodyClass.classList.contains('started')) {
+        bodyClass.classList.add('started');
+        go("game", ({ level: 0, score: 0, deadLine: isDeadLine, big: isBig, lives: lives_init }))
+    }
+});
